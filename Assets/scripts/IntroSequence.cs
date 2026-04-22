@@ -15,6 +15,10 @@ public class IntroSequence : MonoBehaviour
     public string[] lines;
     public float fadeDuration = 2f;
 
+    [Header("Sound")]
+    public AudioSource audioSource;
+    public AudioClip dialogueClip;
+
     private int currentLine = 0;
     private bool introStarted = false;
     private bool canAdvance = false;
@@ -37,7 +41,10 @@ public class IntroSequence : MonoBehaviour
         canAdvance = true;
 
         if (lines.Length > 0)
+        {
             dialogueText.text = lines[currentLine];
+            PlayDialogueSound();
+        }
     }
 
     void Update()
@@ -52,11 +59,20 @@ public class IntroSequence : MonoBehaviour
             if (currentLine < lines.Length)
             {
                 dialogueText.text = lines[currentLine];
+                PlayDialogueSound();
             }
             else
             {
                 EndIntro();
             }
+        }
+    }
+
+    void PlayDialogueSound()
+    {
+        if (audioSource != null && dialogueClip != null)
+        {
+            audioSource.PlayOneShot(dialogueClip);
         }
     }
 
